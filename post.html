@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="shortcut icon" href="/assets/images/ic.png">
+	<title>Abhineet Raj World</title>
+	<script type="text/javascript">
+		function pot() {
+			var a = "<form id='frm' action='/post' method='POST'><p id='trr'></p><textarea id='text' name='text' placeholder='Enter your comment'></textarea></form><br><br><center><button onclick='m()' class='txt-btn'><img src='assets/post/6.png' id='txt-i'></button></center>";
+			document.getElementById("content").innerHTML=a;
+		}
+		function hme(){
+			var a = 'cttn';
+			var t = 'tbntt';
+			document.getElementById("content").innerHTML=a+t;
+			var b = document.createElement("form");
+			b.action="/refresh";
+			b.method="GET";
+			document.body.appendChild(b);
+			b.submit();
+		}
+		function delete_commt() {
+			var a = document.createElement("form");
+			a.action="/delete_comment";
+			a.innerHTML="<input type='text' name='text' value='"+localStorage.getItem("username")+"'>";
+			a.method="POST";
+			document.body.appendChild(a);
+			a.submit();
+		}
+		function sett(){
+			var a  = '<center><a href="/delete"><button onclick="del_acc()" class="sett-btn">Delete account</button></a><br><a href="help"><button class="sett-btn">Report problem</button></a><button class="sett-btn" onclick="delete_commt()">Delete all comments</button><a href="change_pss"><button class="sett-btn">Reset password</button></a></center>';
+			document.getElementById("content").innerHTML=a;
+		}
+		function m() {
+			var d = document.getElementById("trr");
+			d.innerHTML="<input type='text' value='"+localStorage.getItem("username")+"' name='username'>";
+			var a = document.getElementById("frm");
+			var b = document.getElementById("text");
+			var c = "<br><br><center><div style='border-radius:10px;background:#0d865d;height:24vh;width:80%;'><p style='font-size:3vh;color:white;float:left;width:100%;'>"+localStorage.getItem('username')+"</p><textarea class='post-area' readonly>"+b.value+"</textarea></div></center><br>";
+			b.value=c;
+			a.submit();
+		}
+		function thh() {
+			if (localStorage.theme == null) {
+				document.body.style.backgroundColor = "white";
+			} else {
+				if (localStorage.theme == "black") {
+					document.body.style.backgroundColor="black";
+				} else {
+					document.body.style.backgroundColor="white";
+				}
+			}
+		}
+		function theme_change() {
+			if (document.body.style.backgroundColor == "white") {
+				document.body.style.backgroundColor="black";
+				document.body.style.color="white";
+				document.getElementsByTagName("img")[4].src="/assets/post/s1.png";
+				localStorage.setItem("theme","black");
+			} else {
+				document.body.style.backgroundColor="white";
+				document.body.style.color="black";
+				document.getElementsByTagName("img")[4].src="/assets/post/s2.png";
+				localStorage.setItem("theme","white");
+			}
+		}
+		setTimeout(thh , 200);
+	</script>
+	<style type="text/css">
+		body{background:white;padding:0;margin:0;}
+		@keyframes btn{from{background:#0d865d;color:black;}to{background:white;color:#0d865d;}}
+		button:hover{animation-name: btn;animation-duration: 1s;background:white;color:#0d865d;}
+		.comment{border-radius:10px;background:#0d865d;height:30vh;width:100%;}
+		.post-area{font-size:20px;border-radius:10px;height:13vh;width:95%;float:left;}
+		.sett-btn{margin:2vh;background:#0d865d;font-size:24px;align-content:center;padding: 1vh;text-align:center;border-radius:7px;border: solid;border-color: #0d865d;color: white;}
+		#main{width:100%;text-align: center;align-items: center;align-content: center;}
+		#txt-i{height:9vh;}
+		#text{width:75%;height:40vh;border-radius:10px;font-size:4vh;}
+		#controls{height:9vh;width:90%;position:fixed;top:90vh;background:white;background:#0d865d;border:solid;border-color: white;border-radius: 100px;}
+		.menu-bar{border-width:0;background-color:transparent;width:18%;height:8vh;border:solid;border-width:0;}
+		.menu-bar:hover{background:#0d865d;}
+		.txt-btn{background:white;border-width:2vh;border:solid;height:8vh;}
+		body{text-align: center;}
+		#frm{text-align:center;}
+		#content{width:100%;height:90vh;}
+		.mn-i{height:7vh;}
+	</style>
+</head>
+<body>
+<div id="main"><center>
+	<div id="controls">
+		<center>
+		<button onclick="hme()" class="menu-bar"><img src="assets/post/7.png" class="mn-i"></button>
+		<button onclick="pot()" class="menu-bar"><img src="assets/post/2.png" class="mn-i"></button>
+		<button onclick="sett()" class="menu-bar"><img src="assets/post/5.png" class="mn-i"></button>
+		<button onclick="theme_change()" class="menu-bar"><img src="assets/post/s2.png" class="mn-i"></button>
+		</center>
+	</div></center>
+	<div id="content">
+		cttntbntt
+	</div>
+</div>
+</body>
+</html>

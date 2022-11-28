@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="shortcut icon" href="/assets/images/ic.png">
+	<title>Abhineet Raj World</title>
+	<style type="text/css">
+		img{height:23vh;}
+		input{height:4vh;}
+		body{background:#0d865d;padding:0;margin:0;}
+		#tty{font-size:35px;color:white;text-align:center;}
+		button{width:92%;text-align:center;font-size:24px;padding: 1vh;color:#0d865d;background:white;border-color: #0d865d;border: solid;border-radius: 8px;}
+		a{color:white;}
+		#opp{height:25vh;width:100%;}
+		#f{width:100%;height:64vh;}
+		p{color:white;font-size:3vh;}
+	</style>
+	<script type="text/javascript">
+		function proo(){
+			if(document.getElementsByTagName("input")[0].checked == true) {
+				location.href=location.href+ "/login";
+			} else {
+				alert('Kindly agree the terms and conditions');
+			}
+		}
+	</script>
+</head>
+<body>
+<center>
+<p id="tty">Abhineet Raj World</p>
+<div id="f">
+	<img src="assets/post/1.png"></img>
+	<div id="opp">
+	</div>
+	<p><input checked="true" type="radio">I agree the <a href="/tc">Terms & Conditions</a> before proceeding</p>
+</div>
+<button onclick="proo()">Proceed</button>
+</center>
+<script type="text/javascript">
+	if(window.innerHeight < window.innerWidth) {
+		document.getElementsByTagName("button")[0].style.width="35%";
+	}
+</script>
+</body>
+</html>
