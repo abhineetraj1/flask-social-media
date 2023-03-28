@@ -23,7 +23,11 @@
 	<a id="frm-a" href="/login">Already have an account?</a>
 	<br><br>
 </form>
-
+<script type="text/javascript">
+	if ("{{msg}}" != "none") {
+		alert("{{msg}}");
+	}
+</script>
 <script type="text/javascript" src="/assets/script/signup.ui.js"></script>
 </body>
 </html>

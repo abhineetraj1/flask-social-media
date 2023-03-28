@@ -9,8 +9,8 @@
 			document.getElementById("content").innerHTML=a;
 		}
 		function hme(){
-			var a = 'cttn';
-			var t = 'tbntt';
+			var a = '{{cttn';
+			var t = 'tbntt}}';
 			document.getElementById("content").innerHTML=a+t;
 			var b = document.createElement("form");
 			b.action="/refresh";
@@ -21,7 +21,7 @@
 		function delete_commt() {
 			var a = document.createElement("form");
 			a.action="/delete_comment";
-			a.innerHTML="<input type='text' name='text' value='"+localStorage.getItem("username")+"'>";
+			a.innerHTML="<input type='text' name='text' value='"+localStorage.getItem("{{username}}")+"'>";
 			a.method="POST";
 			document.body.appendChild(a);
 			a.submit();
@@ -32,10 +32,10 @@
 		}
 		function m() {
 			var d = document.getElementById("trr");
-			d.innerHTML="<input type='text' value='"+localStorage.getItem("username")+"' name='username'>";
+			d.innerHTML="<input type='text' value='"+localStorage.getItem("{{username}}")+"' name='{{username}}'>";
 			var a = document.getElementById("frm");
 			var b = document.getElementById("text");
-			var c = "<br><br><center><div style='border-radius:10px;background:#0d865d;height:24vh;width:80%;'><p style='font-size:3vh;color:white;float:left;width:100%;'>"+localStorage.getItem('username')+"</p><textarea class='post-area' readonly>"+b.value+"</textarea></div></center><br>";
+			var c = "<br><br><center><div style='border-radius:10px;background:#0d865d;height:24vh;width:80%;'><p style='font-size:3vh;color:white;float:left;width:100%;'>"+localStorage.getItem('{{username}}')+"</p><textarea class='post-area' readonly>"+b.value+"</textarea></div></center><br>";
 			b.value=c;
 			a.submit();
 		}
@@ -96,8 +96,14 @@
 		</center>
 	</div></center>
 	<div id="content">
-		cttntbntt
+		{{cttntbntt}}
 	</div>
 </div>
+
+<script type="text/javascript">
+	if ("{{msg}}" != "none") {
+		alert("{{msg}}");
+	}
+</script>
 </body>
 </html>

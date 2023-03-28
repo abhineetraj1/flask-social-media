@@ -1,10 +1,11 @@
 from flask import*
 from flask import request
 import datetime as dt
-from flask import request
+from flask import request, render_template
 import os
 import shutil as sl
 import smtplib
+
 def verify_mail(at,u,p):
 	try:
 	    sttt = smtplib.SMTP('smtp.domain.com', 587)
@@ -15,6 +16,7 @@ def verify_mail(at,u,p):
 	    return "Y"
 	except:
 		return "X"
+
 class arw:
 		def add_issue(a):
 			open("ISSUES/"+str(dt.datetime.now()).replace(":","").replace(".","")+".txt","a").write(a)
@@ -85,10 +87,13 @@ class arw:
 								return "Xpassword"
 				else:
 						return "X"
-app = Flask(__name__, static_folder="assets")
+
+app = Flask(__name__, static_folder="assets", template_folder=os.getcwd())
+
 @app.route("/")
 def main():
-		return open("main.html","r+").read()
+		return render_template("main.html")
+
 @app.route("/create",methods=["GET","POST"])
 def a():
 		if (request.method == "POST"):
@@ -97,91 +102,98 @@ def a():
 				b = request.form["password"]
 				if (len(b)>5):
 						if (len(a)<4):
-								"<script>setTimeout(m,1);\n\nfunction m(){alert('Please enter the valid username');}</script>" + open("create.html","r+").read()
+							return render_template("create.html", msg="Please enter the valid username")
 						else:
 								r = arw.create(a,b,c)
 								if (r == "X"):
-									return "<script>setTimeout(m,1);\n\nfunction m(){alert('Account with this username already exist');}</script>" + open("create.html","r+").read()
+									return render_template("create.html", msg="Account with this username already exist")
 								elif(r == "x"):
-									return "<script>setTimeout(m,1);\n\nfunction m(){alert('Enter the valid email ID');}</script>" + open("create.html","r+").read()
+									return render_template("create.html", msg="Enter the valid email ID")
 								else:
-									return open("create.html","r+").read() +"<script>alert('Your account has been made , now sign in with those credentials');</script>"
+									return render_template("create.html", msg="Your account has been made , now sign in with those credentials")
 				else:
-						return "<script>setTimeout(m,1);\n\nfunction m(){alert('Enter the password of more than 5 digits');}</script>" + open("create.html","r+").read()
+					return render_template("create.html", msg="Enter the password of more than 5 digits")
 		else:
-			return open("create.html","r+").read()
+			return render_template("create.html", msg="none")
 
 @app.route("/login",methods=["GET","POST"])
 def b():
 		if (request.method == "POST"):
 				g = arw.verify(request.form["username"],request.form["password"])
 				if (g == "X"):
-						return "<script>alert('There is no such account')</script>" + open("login.html","r+").read()
+					return render_template("login.html", msg="There is no such account")
 				elif (g=="Xpassword"):
-						return "<script>alert('Your password is wrong');</script>" + open("login.html","r+").read()
+					return render_template("login.html", msg="Your password is wrong")
 				else:
-						return "<script>localStorage.setItem('username',"+"'"+request.form["username"]+"'"+")</script>"+(open("post.html","r+").read()).replace('cttntbntt',arw.get_content())
+					return render_template("post.html", cttntbntt=arw.get_content(), username=username, msg="none")
 		else:
-			 return open("login.html","r+").read()
+			 return render_template("login.html", msg="none")
+
 @app.route("/change_pss",methods=["GET","POST"])
 def b1():
 		if (request.method == "POST"):
 			g = arw.change_pass(request.form["username"],request.form["password"])
-			return (open("post.html","r+").read()).replace('cttntbntt',arw.get_content())+"<script>alert('Your password has been changed');</script>"
+			return render_template("post.htmt", msg="Your password has been changed", cttntbntt=arw.get_content())
 		else:
-			return open("reset.html","r+").read()
+			return render_template("reset.html")
 tcca="""
 Make sure you are 15+ and know the basics of tech and coding related stuffs.
 """
 @app.route("/tc",methods=["GET"])
 def mm():
     return tcca
+
 @app.route("/post",methods=["GET","POST"])
 def c():
 		if (request.method == "POST"):
-				if (len(request.form["text"])>3000):
-						return "<script>alert('Don't exceed the limit of 3000 characters);</script>"+open("post.html","r+").read()
-				elif (len(request.form["text"])<5):
-						return "<script>alert('Enter the valid information');</script>"+open("post.html","r+").read()
-				else:
-						arw.add_post(request.form["username"],request.form["text"])
-						return (open("post.html","r+").read()).replace('cttntbntt',arw.get_content())
+			if (len(request.form["text"])>3000):
+				return render_template("post.html", msg="Don't exceed the limit of 3000 characters", cttntbntt=arw.get_content())
+			elif (len(request.form["text"])<5):
+				return render_template("post.html", msg="Enter the valid information", cttntbntt=arw.get_content())
+			else:
+				arw.add_post(request.form["username"],request.form["text"])
+				return render_template("post.html", msg="none", cttntbntt=arw.get_content())
 		else:
-				return (open("post.html","r+").read()).replace('cttntbntt',arw.get_content())
+			return render_template("post.html", msg="none" , cttntbntt=arw.get_content())
+
 @app.route("/refresh",methods=["GET"])
 def e():
-	return (open("post.html","r+").read()).replace('cttntbntt',arw.get_content())
+	return render_template("post.html", cttntbntt=arw.get_content())
+
 @app.route("/delete",methods=["GET","POST"])
 def d():
-		if (request.method== "POST"):
-				if(arw.verify(request.form["username"],request.form["password"])=="Y"):
-						arw.delete(request.form["username"])
-						arw.delete_comment(request.form["username"])
-						return open("delete_arg.html","r+").read()
-				else:
-						return "<script>setTimeout(m,1);\n\nfunction m(){alert('Your password or username is wrong');}</script>" + open("delete.html","r+").read()
-		else:
-				return open("delete.html","r+").read()
+	if (request.method== "POST"):
+			if(arw.verify(request.form["username"],request.form["password"])=="Y"):
+				arw.delete(request.form["username"])
+				arw.delete_comment(request.form["username"])
+				return render_template("delete_arg.html")
+			else:
+				return render_template("delete.html", msg="Your password or username is wrong")
+	else:
+		return render_template("delete.html", msg="none")
+
 @app.route("/delete_comment",methods=["GET","POST"])
 def g():
 	if (request.method == "POST"):
 		if (request.form["text"] in os.listdir("ACC")):
 			arw.delete_comment(request.form["text"])
-			return "<script>alert('Your all comments are deleted.');</script>"+ (open("post.html","r+").read()).replace('cttntbntt',arw.get_content())
+			return render_template("post.html", msg="Your all comments are deleted", cttntbntt=arw.get_content())
 		else:
 			return "ERROR 501"
 	else:
-		return (open("post.html","r+").read()).replace('cttntbntt',arw.get_content())
+		return render_template("post.html", msg="none", cttntbntt=arw.get_content())
+
 @app.route("/help",methods=["GET","POST"])
 def f():
 	if (request.method == "POST"):
 		arw.add_issue(request.form["text"])
-		return "<script>alert('Your report has been submitted');</script>"+(open("post.html","r+").read()).replace('cttntbntt',arw.get_content())
+		return render_template("post.html", cttntbntt=arw.get_content(),msg="Your report has been submitted")
 	else:
-		return open("help.html","r").read()
+		return render_template("help.html")
 
 @app.errorhandler(404)
 def ls(e):
-	return open("404.html","r").read()
+	return render_template("404.html")
+
 if "__main__" == __name__:
 	app.run()
