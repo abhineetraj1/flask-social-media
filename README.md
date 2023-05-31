@@ -5,7 +5,16 @@ Text article sharing platorm made in python3.6 (using Flask lib)
 ## Installation
 1) First install python3.6 in your respective system
 2) Download this source code
-3) Delete file "info.txt" from folder name "static" and "ACC"
+```
+git clone https://github.com/abhineetraj1/flask-social-media
+cd flask-social-media
+```
+
+## Features
+* Share textual stories and information
+* Delete all your shared information at one click
+* Change password and username
+* Delete account
 
 ### For macOS
 
